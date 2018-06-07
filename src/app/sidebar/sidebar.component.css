@@ -1,0 +1,19 @@
+a {
+  color: rgba(255,255,255,.5);
+}
+a:hover {
+  color: rgba(255,255,255,.75);
+}
+
+a.active {
+  color: rgb(255,255,255);
+}
+@media screen and (min-width: 768px) {
+  .nav.flex-column.bg-dark {
+    height: 100%;
+  }
+  ul {
+    position: fixed;
+    top: 56px;
+  }
+}

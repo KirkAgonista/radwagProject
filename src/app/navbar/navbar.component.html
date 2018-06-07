@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/">
+    <img src="../../assets/house.png" alt="Logo">
+  </a>
+
+    <ul class="navbar-nav ml-auto" *ngIf="!this.authService.token; else welcomeBlock">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login" routerLinkActive="active">Zaloguj</a>
+      </li>
+    </ul>
+    <ng-template #welcomeBlock>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <p class="nav-link">Witaj {{this.authService.loggedUser.username}}</p>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="onLogout()">Wyloguj</a>
+        </li>
+      </ul>
+    </ng-template>
+
+</nav>

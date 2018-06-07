@@ -1,0 +1,31 @@
+<div class=" m-0 p-0">
+  <form class="m-0 p-3" (ngSubmit)="onSubmit()" [formGroup]="signinForm">
+    <div
+      class="alert alert-danger"
+      *ngIf="!success">
+      Błędne dane logowania.
+    </div>
+
+    <h1>Logowanie</h1>
+    <div class="form-group">
+      <label for="usernameForm">Nazwa Użytkownika:</label>
+      <input id="usernameForm" class="form-control" type="text" name="usernameForm" formControlName="usernameForm"/>
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="signinForm.get('usernameForm').hasError('required') && signinForm.get('usernameForm').touched">
+      Brak nazwy użytkownika.
+    </div>
+    <div class="form-group">
+      <label for="passwordForm">Hasło:</label>
+      <input id="passwordForm" class="form-control" type="password" name="passwordForm" formControlName="passwordForm"/>
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="signinForm.get('passwordForm').hasError('required') && signinForm.get('passwordForm').touched">
+      Brak hasła.
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="signinForm.invalid">Zaloguj się</button>
+  </form>
+</div>

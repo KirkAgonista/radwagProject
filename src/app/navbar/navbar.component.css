@@ -1,0 +1,26 @@
+.navbar.navbar-expand-lg.navbar-dark.bg-dark {
+  min-width: 300px;
+}
+.navbar-brand {
+  padding: 0;
+}
+img {
+  max-width: 30px;
+}
+p.nav-link {
+  margin: 0;
+}
+p.nav-link:hover {
+  color: rgba(255, 255, 255, 0.5);
+}
+a {
+  cursor: pointer;
+}
+@media screen and (max-width: 992px) {
+  .navbar-nav.ml-auto {
+    flex-direction: row;
+  }
+  .nav-link {
+    padding: 8px;
+  }
+}

@@ -1,0 +1,12 @@
+.row {
+  min-height: calc(100vh - 56px);
+  min-width: 300px;
+}
+.row + div {
+  min-height: calc(100% - 56px);
+}
+@media screen and (max-width: 767px) {
+  #sidebar {
+    max-height: 120px!important;
+  }
+}

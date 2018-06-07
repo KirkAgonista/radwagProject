@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <button type="button"
+          class="btn btn-primary mt-3"
+          (click)="openModalContractors(false, -1)"
+          *ngIf="this.authService.isAuthenticated()">Nowy kontrahent</button>
+  </div>
+  <hr>
+  <div class="row mt-3">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3" *ngFor="let contractor of contractors; let i = index;">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{contractor.name}}</h5>
+          <div class="card-text">
+            <ul>
+              <li>Adres: ul.{{contractor.address}}</li>
+              <li>NIP: {{contractor.nip}}</li>
+              <li>Miasto: {{contractor.town}}</li>
+              <li>Kod Pocztowy: {{contractor.zipCode}}</li>
+              <li>Numer Telefonu: {{contractor.phoneNumber}}</li>
+            </ul>
+            <div class="btn-group d-flex justify-content-center">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="openModalContractors(true, i)"
+                  *ngIf="this.authService.isAuthenticated()"
+                >Edytuj Dane</button>
+                <button type="button"
+                        class="btn btn-danger"
+                        (click)="onContractorDelete(contractor._id)"
+                        *ngIf="this.authService.isAuthenticated()"
+                >Usuń</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
