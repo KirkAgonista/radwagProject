@@ -48,6 +48,7 @@ UserSchema.pre('save', function (next) {
     if (this.isModified('password') || this.isNew) {
         bcrypt.genSalt(10, function (err, salt) {
             if (err) {
+              console.log(err);
                 return next(err);
             }
             bcrypt.hash(user.password, salt, function (err, hash) {
@@ -59,6 +60,7 @@ UserSchema.pre('save', function (next) {
             });
         });
     } else {
+      console.log('error with hash');
         return next();
     }
 });

@@ -9,7 +9,7 @@ import {CookieService} from '@ngx-toolkit/cookie';
 @Injectable()
 export class AuthService {
   public token: string;
-  public loggedUser = {isAdmin: false};
+  public loggedUser: User = {isAdmin: false};
 
   constructor(private http: Http, private cookieService: CookieService) {
     // set token if saved in cookies

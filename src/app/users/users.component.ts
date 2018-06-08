@@ -57,8 +57,10 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   }
   onDeleteUser(userId) {
-    this.usersService.deleteUser(userId)
-      .subscribe();
+    if (userId !== this.authService.loggedUser._id && this.authService.isAdmin()) {
+      this.usersService.deleteUser(userId)
+        .subscribe();
+    }
     this.usersService.getUsers();
   }
 }
@@ -113,7 +115,7 @@ export class UsersComponent implements OnInit, OnDestroy {
           </div>
           <div class="form-group">
             <label for="email">Email:</label>
-            <input class="form-control" type="email" name="email" formControlName="email"/>
+            <input class="form-control" type="email" name="email" formControlName="email" required/>
           </div>
           <div
             class="alert alert-danger"
@@ -164,7 +166,6 @@ export class UserModalContentComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.user);
     this.initForm();
   }
   onSubmit() {

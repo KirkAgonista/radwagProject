@@ -1,13 +1,14 @@
-const User = require("../models/users"),
+const db = require("../models"),
   jwt = require("jwt-simple"),
-  config = require('../config/database');
+  config = require('../config/database'),
+  bcrypt = require('bcrypt');
 
 //register the user
 exports.registerUser = function(req, res) {
   if (!req.body.username || !req.body.password || !req.body.email) {
     res.json({success: false, msg: `Please pass username and password.`});
   } else {
-    let newUser = new User({
+    let newUser = new db.User({
       username: req.body.username,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -31,7 +32,7 @@ exports.registerUser = function(req, res) {
 
 //login the user
 exports.loginUser = function(req, res) {
-  User.findOne({
+  db.User.findOne({
     username: req.body.username
   }, function(err, user) {
     if (err) throw err;
@@ -65,7 +66,7 @@ exports.loginUser = function(req, res) {
 
 //get all users data
 exports.getUsers = function(req, res){
-  User.find()
+  db.User.find()
     .then(function(users){
       res.json(users);
     })
@@ -76,7 +77,7 @@ exports.getUsers = function(req, res){
 
 //get user data
 exports.getUser = function(req, res){
-  User.findById(req.params.userId)
+  db.User.findById(req.params.userId)
     .then(function(foundUser){
       res.json(foundUser);
     })
@@ -87,20 +88,20 @@ exports.getUser = function(req, res){
 
 //change user data
 exports.updateUser = function(req, res){
-  User.findOneAndUpdate({_id: req.params.userId}, req.body, {new: true})
+  let newUser = {
+    username: req.body.username,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    position: req.body.position,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
+  };
+  if(req.body.adminCode === config.adminPassword){
+    newUser.isAdmin = true;
+  }
+  db.User.findOneAndUpdate({_id: req.params.userId}, newUser, {new: true})
     .then(function(user){
-      let newUser = new User({
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        position: user.position,
-        email: user.email,
-        password: user.password,
-      });
-      if(user.adminCode === config.adminPassword){
-        newUser.isAdmin = true;
-      }
-      res.json(newUser);
+      res.json(user);
     })
     .catch(function(err){
       res.send(err);
@@ -108,7 +109,7 @@ exports.updateUser = function(req, res){
 };
 
 exports.deleteUser = function(req, res){
-  User.remove({_id: req.params.userId})
+  db.User.remove({_id: req.params.userId})
     .then(function(){
       res.json({message: "We deleted it!"});
     })

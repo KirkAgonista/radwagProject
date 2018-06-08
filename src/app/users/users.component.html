@@ -27,7 +27,7 @@
                 >Edytuj Dane</button>
                 <button type="button"
                         class="btn btn-danger"
-                        [disabled]="user.isAdmin"
+                        [disabled]="user._id === this.authService.loggedUser._id"
                         (click)="onDeleteUser(user._id)"
                         *ngIf="this.authService.isAdmin()"
                 >Usuń</button>
