@@ -132,7 +132,7 @@ export class UsersComponent implements OnInit, OnDestroy {
             Brak hasła.
           </div>
           <div class="form-group">
-            <label for="adminCode">Hasło Admina:</label>
+            <label for="adminCode">Hasło Administratora:</label>
             <input class="form-control" type="password" name="adminCode" formControlName="adminCode"/>
           </div>
           <div class="row">
