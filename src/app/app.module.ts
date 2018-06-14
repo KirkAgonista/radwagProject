@@ -5,15 +5,18 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {
+  GoodDeleteConfirmationModalContentComponent,
   GoodInfoModalComponent,
   GoodsComponent,
   ModalContentComponent
 } from './goods/goods.component';
 import {
+  UserDeleteConfirmationModalContentComponent,
   UserModalContentComponent,
   UsersComponent
 } from './users/users.component';
 import {
+  ContractorDeleteConfirmationModalContentComponent,
   ContractorModalContentComponent,
   ContractorsComponent
 } from './contractors/contractors.component';
@@ -53,7 +56,10 @@ import {ContractorsService} from './contractors/contractors.service';
     ModalContentComponent,
     GoodInfoModalComponent,
     UserModalContentComponent,
-    ContractorModalContentComponent
+    ContractorModalContentComponent,
+    UserDeleteConfirmationModalContentComponent,
+    GoodDeleteConfirmationModalContentComponent,
+    ContractorDeleteConfirmationModalContentComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +84,10 @@ import {ContractorsService} from './contractors/contractors.service';
     ModalContentComponent,
     GoodInfoModalComponent,
     UserModalContentComponent,
-    ContractorModalContentComponent
+    ContractorModalContentComponent,
+    UserDeleteConfirmationModalContentComponent,
+    GoodDeleteConfirmationModalContentComponent,
+    ContractorDeleteConfirmationModalContentComponent
   ],
   bootstrap: [AppComponent]
 })

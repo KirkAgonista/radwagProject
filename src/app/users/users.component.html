@@ -28,7 +28,7 @@
                 <button type="button"
                         class="btn btn-danger"
                         [disabled]="user._id === this.authService.loggedUser._id"
-                        (click)="onDeleteUser(user._id)"
+                        (click)="openModalDeleteConfirmation(user)"
                         *ngIf="this.authService.isAdmin()"
                 >Usuń</button>
             </div>
@@ -38,5 +38,4 @@
     </div>
   </div>
 </div>
-
 

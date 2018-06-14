@@ -28,7 +28,7 @@
                 >Edytuj Dane</button>
                 <button type="button"
                         class="btn btn-danger"
-                        (click)="onContractorDelete(contractor._id)"
+                        (click)="openModalDeleteConfirmation(contractor)"
                         *ngIf="this.authService.isAuthenticated()"
                 >Usuń</button>
             </div>

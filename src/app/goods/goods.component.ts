@@ -8,6 +8,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {Subscription} from 'rxjs';
 import {Goods} from './goods.model';
 
+
 @Component({
   selector: 'app-goods',
   templateUrl: './goods.component.html',
@@ -93,10 +94,9 @@ export class GoodsComponent implements OnInit, OnDestroy  {
   onTagChange(event) {
     this.goodsFilterForm.get('tags').get(event.target.name).setValue(event.target.checked);
   }
-  onGoodDelete(goodId) {
-    this.goodsService.deleteGood(goodId)
-      .subscribe();
-    this.goodsService.getGoods();
+  openModalDeleteConfirmation(good: Goods) {
+    const initialState = {good};
+    this.bsModalRef = this.modalService.show(GoodDeleteConfirmationModalContentComponent, {initialState});
   }
 }
 // Modal Component - Good Creation/Edit
@@ -317,5 +317,45 @@ export class GoodInfoModalComponent implements OnInit {
     public bsModalRef: BsModalRef
   ) {}
   ngOnInit() {
+  }
+}
+// Modal Component - Good Delete Confirmation
+@Component({
+  selector: 'app-modal-confirmation-content',
+  template: `<div class="modal-header">
+    <h4 class="modal-title pull-left">Potwierdzenie</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      Czy napewno chcesz usunąć {{good.name}}?
+      </div>
+      <div class="modal-footer">
+      <button type="button"
+    class="btn btn-danger"
+    (click)="onGoodDelete(good._id)"
+      >Usuń</button>
+      <button class="btn btn-secondary" type="button" (click)="bsModalRef.hide()">
+      Anuluj
+      </button>
+      </div>`
+})
+// Class - Good Delete Confirmation Modal Component
+export class GoodDeleteConfirmationModalContentComponent implements OnInit {
+  good: Goods;
+
+  constructor(
+    public bsModalRef: BsModalRef,
+    public goodsService: GoodsService
+  ) {}
+
+  ngOnInit() {
+
+  }
+  async onGoodDelete(goodId) {
+    await this.goodsService.deleteGood(goodId)
+      .subscribe(data => this.goodsService.getGoods());
+    this.bsModalRef.hide();
   }
 }

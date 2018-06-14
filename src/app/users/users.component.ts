@@ -56,12 +56,9 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.bsModalRef.content.closeBtnName = 'Anuluj';
     }
   }
-  onDeleteUser(userId) {
-    if (userId !== this.authService.loggedUser._id && this.authService.isAdmin()) {
-      this.usersService.deleteUser(userId)
-        .subscribe();
-    }
-    this.usersService.getUsers();
+  openModalDeleteConfirmation(user: Users) {
+    const initialState = {user};
+    this.bsModalRef = this.modalService.show(UserDeleteConfirmationModalContentComponent, {initialState});
   }
 }
 // Modal Component - User Creation/Edit
@@ -196,5 +193,48 @@ export class UserModalContentComponent implements OnInit {
       'password': new FormControl(password, Validators.required),
       'adminCode': new FormControl(adminCode)
     });
+  }
+}
+// Modal Component - User Delete Confirmation
+@Component({
+  selector: 'app-modal-confirmation-content',
+  template: `<div class="modal-header">
+    <h4 class="modal-title pull-left">Potwierdzenie</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      Czy napewno chcesz usunąć {{user.username}}?
+      </div>
+      <div class="modal-footer">
+      <button type="button"
+    class="btn btn-danger"
+    (click)="onDeleteUser(user._id)"
+      >Usuń</button>
+      <button class="btn btn-secondary" type="button" (click)="bsModalRef.hide()">
+      Anuluj
+      </button>
+      </div>`
+})
+// Class - User Delete Confirmation Modal Component
+export class UserDeleteConfirmationModalContentComponent implements OnInit {
+  user: Users;
+
+  constructor(
+    public bsModalRef: BsModalRef,
+    public authService: AuthService,
+    public usersService: UsersService
+  ) {}
+
+  ngOnInit() {
+
+  }
+  async onDeleteUser(userId) {
+    if (userId !== this.authService.loggedUser._id && this.authService.isAdmin()) {
+       await this.usersService.deleteUser(userId)
+        .subscribe(data => this.usersService.getUsers());
+    }
+    this.bsModalRef.hide();
   }
 }

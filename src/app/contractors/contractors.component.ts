@@ -8,6 +8,7 @@ import {BsModalService} from 'ngx-bootstrap';
 import {Contractors} from './contractors.model';
 import {ContractorsService} from './contractors.service';
 
+
 @Component({
   selector: 'app-contractors',
   templateUrl: './contractors.component.html',
@@ -56,10 +57,9 @@ export class ContractorsComponent implements OnInit, OnDestroy {
       this.bsModalRef.content.closeBtnName = 'Anuluj';
     }
   }
-  onContractorDelete(contractorId) {
-    this.contractorsService.deleteContractor(contractorId)
-      .subscribe();
-    this.contractorsService.getContractors();
+  openModalDeleteConfirmation(contractor: Contractors) {
+    const initialState = {contractor};
+    this.bsModalRef = this.modalService.show(ContractorDeleteConfirmationModalContentComponent, {initialState});
   }
 }
 // Modal Component - Contractor Creation/Edit
@@ -202,5 +202,45 @@ export class ContractorModalContentComponent implements OnInit {
       'zipCode': new FormControl(zipCode, Validators.required),
       'phoneNumber': new FormControl(phoneNumber, Validators.required)
     });
+  }
+}
+// Modal Component - Contractor Delete Confirmation
+@Component({
+  selector: 'app-modal-confirmation-content',
+  template: `<div class="modal-header">
+    <h4 class="modal-title pull-left">Potwierdzenie</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      Czy napewno chcesz usunąć {{contractor.name}}?
+      </div>
+      <div class="modal-footer">
+      <button type="button"
+    class="btn btn-danger"
+    (click)="onContractorDelete(contractor._id)"
+      >Usuń</button>
+      <button class="btn btn-secondary" type="button" (click)="bsModalRef.hide()">
+      Anuluj
+      </button>
+      </div>`
+})
+// Class - Contractor Delete Confirmation Modal Component
+export class ContractorDeleteConfirmationModalContentComponent implements OnInit {
+  contractor: Contractors;
+
+  constructor(
+    public bsModalRef: BsModalRef,
+    public contractorsService: ContractorsService
+  ) {}
+
+  ngOnInit() {
+
+  }
+  async onContractorDelete(contractorId) {
+    await this.contractorsService.deleteContractor(contractorId)
+      .subscribe(data => this.contractorsService.getContractors());
+    this.bsModalRef.hide();
   }
 }
