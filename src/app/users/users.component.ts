@@ -168,13 +168,12 @@ export class UserModalContentComponent implements OnInit {
   onSubmit() {
     if (this.editMode) {
       this.usersService.editUser(this.user._id, this.signupForm.value)
-        .subscribe();
+        .subscribe(data => this.usersService.getUsers());
     } else {
       this.authService.register(this.signupForm.value)
-        .subscribe();
+        .subscribe(data => this.usersService.getUsers());
     }
     this.bsModalRef.hide();
-    setTimeout(() => this.usersService.getUsers(), 300);
   }
   private initForm() {
     const username = this.user.username;

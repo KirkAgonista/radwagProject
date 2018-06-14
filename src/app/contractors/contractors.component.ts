@@ -179,13 +179,12 @@ export class ContractorModalContentComponent implements OnInit {
   onSubmit() {
     if (this.editMode) {
       this.contractorsService.editContractor(this.contractor._id, this.contractorsForm.value)
-        .subscribe();
+        .subscribe(data => this.contractorsService.getContractors());
     } else {
       this.contractorsService.createContractor(this.contractorsForm.value)
-        .subscribe();
+        .subscribe(data => this.contractorsService.getContractors());
     }
     this.bsModalRef.hide();
-    setTimeout(() => this.contractorsService.getContractors(), 300);
   }
   private initForm() {
     const name = this.contractor.name;

@@ -234,13 +234,12 @@ export class ModalContentComponent implements OnInit {
     formValue['tags'] = checkedTags;
     if (this.editMode) {
       this.goodsService.editGood(this.good._id, formValue)
-        .subscribe();
+        .subscribe(data => this.goodsService.getGoods());
     } else {
       this.goodsService.createGood(formValue)
-        .subscribe();
+        .subscribe(data => this.goodsService.getGoods());
     }
     this.bsModalRef.hide();
-    setTimeout(() => this.goodsService.getGoods(), 300);
   }
   createTags() {
     const tagsForm = {};
